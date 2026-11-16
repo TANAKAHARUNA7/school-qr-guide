@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>영진전문대학 창조관 층별 안내</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#edf0f4; --surface:#ffffff; --ink:#1b2430; --muted:#5d6b7c; --line:#d3dae3;
+  --accent:#0a4fb3; --accent-ink:#ffffff;
+  --slab:#f7f8fa; --slab-side:#c5ccd6; --slab-side2:#aeb7c4; --corridor:#e3e8a0; --corridor-line:#b9bf6a;
+  --office:#f0b84a; --office-side:#c8922d;
+  --class:#e9a56d; --class-side:#c27c42;
+  --fac:#b9c2cf; --fac-side:#8f9aa9;
+  --toilet:#9ad0ea; --toilet-side:#6aa6c6;
+  --rtext:#1b2430; --label:#1b2430; --route:#e0452f; --route2:#7c4dff;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151c; --surface:#19212b; --ink:#e8edf3; --muted:#9aa7b8; --line:#2c3846;
+    --accent:#7ea0ff; --accent-ink:#0d1420;
+    --slab:#232d3a; --slab-side:#161d27; --slab-side2:#10161e; --corridor:#4d5424; --corridor-line:#7a8236;
+    --office:#d9a13c; --office-side:#9c7220;
+    --class:#a8683a; --class-side:#6f4222;
+    --fac:#4b5868; --fac-side:#333d4a;
+    --toilet:#356f8c; --toilet-side:#244d62;
+    --rtext:#f1f5f9; --label:#f2f5f9; --route:#ff6a52; --route2:#b39dff;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151c; --surface:#19212b; --ink:#e8edf3; --muted:#9aa7b8; --line:#2c3846;
+  --accent:#7ea0ff; --accent-ink:#0d1420;
+  --slab:#232d3a; --slab-side:#161d27; --slab-side2:#10161e; --corridor:#4d5424; --corridor-line:#7a8236;
+  --class:#a8683a; --class-side:#6f4222; --fac:#4b5868; --fac-side:#333d4a;
+  --toilet:#356f8c; --toilet-side:#244d62; --rtext:#f1f5f9; --label:#f2f5f9; --route:#ff6a52; --route2:#b39dff;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  line-height:1.5; -webkit-text-size-adjust:100%;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.app{max-width:980px;margin:0 auto;padding:16px 16px 40px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+header h1{font-size:20px;margin:0;letter-spacing:-.01em;line-height:1.25}
+header p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.back{display:none;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-size:14px;font-weight:600;flex:none}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px;overflow-x:auto}
+svg{display:block;width:100%;height:auto}
+#dtSvg{min-width:760px}
+.hint{font-size:13px;color:var(--muted);margin:10px 4px 0}
+
+.floor{cursor:pointer;transition:transform .18s ease}
+.floor:hover,.floor:focus-visible{transform:translateY(-8px)}
+.floor:focus-visible{outline:none}
+.floor:focus-visible .pill rect,.floor:hover .pill rect{fill:var(--accent)}
+.floor:focus-visible .pill text,.floor:hover .pill text{fill:var(--accent-ink)}
+.pill rect{fill:var(--surface);stroke:var(--line);transition:fill .15s}
+.pill text{fill:var(--ink);font-size:17px;font-weight:700;text-anchor:middle;dominant-baseline:central;transition:fill .15s}
+.ovwrap{max-width:560px;margin:0 auto}
+
+.detail{display:none}
+.room{cursor:pointer}
+.room .top{transition:filter .12s}
+.room:hover .top{filter:brightness(1.08)}
+.room.sel .top{stroke:var(--accent);stroke-width:3.5}
+.room:focus-visible{outline:none}
+.room:focus-visible .top{stroke:var(--accent);stroke-width:3.5}
+.rl{fill:var(--rtext);font-weight:600;text-anchor:middle;pointer-events:none}
+.deco{fill:var(--muted);font-size:12px;text-anchor:middle;font-weight:600;pointer-events:none}
+.route-line{fill:none;stroke:var(--route);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 9;animation:flow 1s linear infinite;pointer-events:none}
+.route-line.b{stroke:var(--route2)}
+@keyframes flow{to{stroke-dashoffset:-10}}
+@media (prefers-reduced-motion: reduce){ .route-line{animation:none;stroke-dasharray:none} .floor{transition:none} }
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px}
+.panel h2{font-size:17px;margin:0 0 10px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:0 0 12px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;border:1px solid rgba(0,0,0,.2)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.list button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:transparent}
+.list button[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.list .dot{flex:none;width:12px;height:12px;border-radius:3px;border:1px solid rgba(0,0,0,.2)}
+.list .t{font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap}
+.rt{font-size:16px;margin:0 0 10px}
+.cards{display:grid;gap:10px}
+@media (min-width:820px){ .cards.two{grid-template-columns:1fr 1fr} }
+.route-card{border-radius:12px;padding:14px;background:color-mix(in srgb,var(--route) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--route) 45%,var(--line))}
+.route-card.b{background:color-mix(in srgb,var(--route2) 10%,var(--surface));border-color:color-mix(in srgb,var(--route2) 45%,var(--line))}
+.route-card h3{margin:0 0 6px;font-size:14px;display:flex;align-items:center;gap:6px}
+.route-card h3 i{width:10px;height:10px;border-radius:50%;background:var(--route);display:inline-block}
+.route-card.b h3 i{background:var(--route2)}
+.route-card p{margin:0;font-size:15px;line-height:1.7;word-break:keep-all}
+.empty{margin:0;font-size:14px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <button class="back" id="back" type="button">← 전체 층</button>
+    <div>
+      <h1 id="title">영진전문대학 창조관</h1>
+      <p id="sub">층을 눌러 호실과 길 안내를 확인하세요</p>
+    </div>
+  </header>
+
+  <section id="overview">
+    <div class="stage"><div class="ovwrap"><svg id="ovSvg" role="img" aria-label="창조관 전체 5개 층"></svg></div></div>
+    <p class="hint">층을 누르면 해당 층의 호실과 길 안내를 볼 수 있어요.</p>
+  </section>
+
+  <section id="detail" class="detail">
+    <div class="stage"><svg id="dtSvg" role="img" aria-label="층 평면 안내도"></svg></div>
+    <p class="hint">지도의 방이나 아래 목록을 누르면 길 안내가 나와요. 좁은 화면에서는 지도를 좌우로 밀어서 볼 수 있어요.</p>
+    <div class="panel"><div id="routeBox"><p class="empty">가고 싶은 곳을 선택해 보세요.</p></div></div>
+    <div class="panel">
+      <h2 id="listTitle">호실 목록</h2>
+      <div class="legend" id="legend"></div>
+      <ul class="list" id="list"></ul>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ============================================================
+   데이터 — 호실 이름/종류/안내 문장은 여기서 수정하세요
+   type: 'class'(교실) | 'office'(학과 사무실) | 'fac'(공용·편의시설) | 'toilet' | 'bridge'
+   n  : 회전계단에서 출발해 복도를 따라 동쪽으로 갈 때, 왼편 몇 번째 문인지
+   bd : 청문관 다리에서 출발할 때 방향('W' 서쪽 / 'E' 동쪽),  nb: 그 방향으로 몇 번째 문인지
+   cs / cb : 회전계단 출발 / 다리 출발 안내 문장을 직접 지정
+   ============================================================ */
+const BUILDING = "영진전문대학 창조관";
+const BX = 226, BW = 594, BY = 12;
+const G = {
+  slab: [[17,0],[820,0],[820,216],[172,216],[172,99],[17,99]],
+  vcor: {x:172,y:48,w:54,h:168},
+  hcor: {x:172,y:186,w:648,h:30},
+  landRect: {x:186,y:210,w:44,h:40},
+  land: {cx:248,cy:275,rx:64,ry:52},
+  spiral: {cx:248,cy:275,rx:50,ry:40},
+  bridge: {x:688,y:216,w:42,h:110},
+  block: {x:175,y:12,w:51,h:36},
+  lobby: [[226,135],[576,135],[576,194],[698,194],[698,216],[226,216]],     // 1층 로비: 103호까지만 이어짐
+};
+const SIZE = {w:830, h:340};
+const S_STAIR = [200,236];    // 2~5층: 회전계단 출발점
+const S_BRIDGE = [709,296];   // 2~5층: 청문관 다리 출발점
+
+function R(name, lines, type, fx, fy, extra){ return Object.assign({name,lines,type,fx,fy}, extra||{}); }
+
+const FLOORS = {
+  1: { bandH:174, bridge:false, rooms:[
+    R("커리어 라운지",["커리어","라운지"],"fac",[0,.59],[0,.707],
+      {e:{text:"정문으로 들어오면 바로 앞쪽(북쪽)에 ‘커리어 라운지’가 있어요.",from:[330,172],ang:0,path:[[330,172],[330,138]]}}),
+    R("103호",["103호"],"class",[.59,.795],[0,1.046],
+      {e:{text:"정문으로 들어와 로비에서 오른쪽(동쪽)을 바라보면 ‘103호’로 들어가는 짧은 계단이 있어요.",from:[520,165],ang:90,path:[[520,165],[574,165]]},stairs:{x:576,y:135,w:60,h:59}}),
+    R("104호 (특정공종목공기술실습실)",["104호","특정공종목공","기술실습실"],"class",[.795,1],[0,1.172],
+      {e:{text:"건물 동쪽 끝, 2~5층에서 다리가 이어지는 자리쯤에 ‘104호’ 입구가 바로 있어요. 그곳에서 안쪽(북쪽)을 바라보세요.",from:[754,232],ang:0,path:[[754,232],[754,219]]}}),
+  ]},
+  2: { bandH:174, bridge:true, rooms:[
+    R("청년 취업 아카데미 사무실 (201~209호)",["청년 취업 아카데미","사무실","(201~209호)"],"office",[0,.80],[0,1],
+      {cs:"복도 왼편에 길게 이어진 구역(201~209호 전체)이 ‘청년 취업 아카데미 사무실’입니다.",
+       cb:"복도로 들어서면 왼쪽(서쪽)으로 이동하세요. 오른편에 길게 이어진 구역(201~209호 전체)이 ‘청년 취업 아카데미 사무실’입니다."}),
+    R("210호 경영회계융합계열 사무실",["210호","경영회계융합계열","사무실"],"office",[.80,1],[0,1],
+      {cs:"복도 동쪽 끝, 청문관 다리 입구 근처 왼편에 있는 가장 큰 방이 ‘210호 경영회계융합계열 사무실’입니다.",
+       cb:"복도로 들어서면 바로 앞쪽(북쪽)·오른쪽(동쪽) 끝에 있는 가장 큰 방이 ‘210호 경영회계융합계열 사무실’입니다."}),
+    {name:"271호",lines:["271"],type:"class",abs:{x:107,y:102,w:65,h:78},noWalk:true,lt:[140,172],
+      cs:"계단 위에서 바로 왼쪽(서쪽), 화장실 아래쪽에 있어요.",
+      cb:"복도를 따라 왼쪽(서쪽) 끝 로비까지 가면, 화장실 아래쪽 왼편에 있어요."},
+  ]},
+  3: { bandH:174, bridge:true, rooms:[
+    {name:"공학관 연결 다리",lines:["← 공학관 연결 다리"],type:"bridge",abs:{x:-98,y:108,w:270,h:40},noWalk:true,lt:[128,-72],
+      cs:"계단 위에서 왼쪽(서쪽) 로비로 나와, 화장실 아래쪽 통로를 따라 끝까지 가면 옆 건물인 공학관으로 이어져요.",
+      cb:"복도를 따라 왼쪽(서쪽) 끝 로비까지 간 뒤, 화장실 아래쪽 통로를 따라 끝까지 가면 옆 건물인 공학관으로 이어져요."},
+    R("301호",["301"],"class",[0,.2],[0,1],{n:1,bd:"W",nb:4}),
+    R("302호",["302"],"class",[.2,.4],[0,1],{n:2,bd:"W",nb:3}),
+    R("303호",["303"],"class",[.4,.6],[0,1],{n:3,bd:"W",nb:2}),
+    R("304호",["304"],"class",[.6,.8],[0,1],{n:4,bd:"W",nb:1}),
+    R("305호",["305"],"class",[.8,1],[0,1],{n:5,bd:"E",nb:1}),
+  ]},
+  4: { bandH:174, bridge:true, rooms:[
+    R("401호",["401"],"class",[0,.20],[0,1],{n:1,bd:"W",nb:4}),
+    R("402호",["402"],"class",[.20,.396],[0,1],{n:2,bd:"W",nb:3}),
+    R("403호",["403"],"class",[.396,.695],[0,1],{n:3,
+      cb:"복도로 들어서면 왼쪽(서쪽)으로 이동하세요. 405-1호를 지나 오른편 다음 문이 ‘403호’입니다."}),
+    R("405-1호 글로벌시스템융합과 사무실",["405-1"],"office",[.695,.765],[.58,1],
+      {cs:"403호를 지나 복도 동쪽 끝 쪽으로 가면, ‘405호’ 바로 옆(서쪽)의 작은 공간이 ‘405-1호 글로벌시스템융합과 사무실’입니다.",
+       cb:"복도로 들어서면 왼쪽(서쪽)으로 조금만 이동하세요. 오른편 첫 번째 작은 공간이 ‘405-1호 글로벌시스템융합과 사무실’입니다."}),
+    {name:"405호",lines:["405호"],type:"class",labelAt:[.87,.5],
+      shape:[[.695,0],[1,0],[1,1],[.765,1],[.765,.58],[.695,.58]],
+      cs:"복도 동쪽 끝 쪽, 왼편의 큰 구역이 ‘405호’입니다. 403호를 지나 복도 끝까지 가면 돼요.",
+      cb:"복도로 들어서면 바로 앞쪽(북쪽)에 보이는 큰 구역이 ‘405호’입니다."},
+  ]},
+  5: { bandH:174, bridge:true, rooms:[
+    R("501호",["501"],"class",[0,.312],[0,1],{n:1,bd:"W",nb:3}),
+    R("502호",["502"],"class",[.312,.416],[0,1],{n:2,bd:"W",nb:2}),
+    R("503호",["503"],"class",[.416,.712],[0,1],{n:3,bd:"W",nb:1}),
+    R("504호",["504"],"class",[.712,1],[0,1],{n:4,
+      cb:"복도로 들어서면 바로 앞쪽(북쪽)에 보이는 방이 ‘504호’입니다."}),
+  ]},
+};
+function toilet(name,y,pos,ty){
+  return {name,lines:[name],type:"toilet",abs:{x:17,y:y,w:155,h:42},noWalk:true,lt:[ty,172],pos,
+    cs:`계단 위에서 바로 앞쪽(북쪽) 로비 안쪽으로 들어가면, ${pos} 칸이 ‘${name}’입니다.`,
+    cb:`복도를 따라 왼쪽(서쪽) 끝 로비까지 간 뒤 안쪽(북쪽)으로 들어가면, ${pos} 칸이 ‘${name}’입니다.`};
+}
+const TOILETS = [toilet("여자화장실",15,"위쪽",53), toilet("남자화장실",57,"아래쪽",80)];
+
+for (const f in FLOORS){
+  const fl = FLOORS[f];
+  const extra = fl.bridge ? [{name:"청문관 연결 다리",lines:[],type:"bridge",abs:{x:688,y:216,w:42,h:110},noBridge:true,
+    cs:"복도 동쪽 끝 쪽에서 오른쪽(남쪽)으로 이어진 통로가 옆 건물인 청문관으로 가는 다리입니다."}] : [];
+  const all = fl.rooms.concat(extra, TOILETS.map(t=>Object.assign({},t)));
+  all.forEach(r=>{
+    if (r.shape){
+      r.poly = r.shape.map(p=>[BX+p[0]*BW, BY+p[1]*fl.bandH]);
+      const xs = r.poly.map(p=>p[0]), ys = r.poly.map(p=>p[1]);
+      r.abs = {x:Math.min(...xs), y:Math.min(...ys), w:Math.max(...xs)-Math.min(...xs), h:Math.max(...ys)-Math.min(...ys)};
+    }
+    if (!r.abs){
+      const x0 = BX + r.fx[0]*BW, x1 = BX + r.fx[1]*BW;
+      const y0 = BY + r.fy[0]*fl.bandH, y1 = BY + r.fy[1]*fl.bandH;
+      r.abs = {x:x0, y:y0, w:x1-x0, h:y1-y0};
+    }
+  });
+  fl.all = all;
+}
+
+const TYPE_LABEL = {office:"학과 사무실", class:"교실·실습실", fac:"공용시설", toilet:"화장실", bridge:"연결 다리"};
+const TYPE_FILL = {office:["var(--office)","var(--office-side)"], class:["var(--class)","var(--class-side)"], fac:["var(--fac)","var(--fac-side)"], toilet:["var(--toilet)","var(--toilet-side)"], bridge:["var(--corridor)","var(--corridor-line)"]};
+const NS = "http://www.w3.org/2000/svg";
+const C30 = 0.866;
+const ORD = ["","첫","두","세","네","다섯","여섯","일곱","여덟","아홉","열"];
+const ord = n => (ORD[n] || n) + " 번째";
+
+function el(name, attrs, parent){
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const pts = arr => arr.map(p => p[0].toFixed(1)+","+p[1].toFixed(1)).join(" ");
+const rectPoly = r => [[r.x,r.y],[r.x+r.w,r.y],[r.x+r.w,r.y+r.h],[r.x,r.y+r.h]];
+function ellPoly(e,n){ n=n||28; const a=[]; for(let i=0;i<n;i++){const t=i/n*Math.PI*2; a.push([e.cx+e.rx*Math.cos(t), e.cy+e.ry*Math.sin(t)]);} return a; }
+
+/* ---------- 길 안내 ---------- */
+function pathFor(f, r, kind){
+  if (f===1){
+    if (r.e) return r.e.path;
+    return [[330,172],[200,172],[200,r.lt[0]],[r.lt[1],r.lt[0]]];
+  }
+  const cx = r.abs.x + r.abs.w/2, dY = r.abs.y + r.abs.h;
+  const S = S_STAIR, B = S_BRIDGE;
+  if (kind==="s"){
+    if (r.lt) return [S,[S[0],r.lt[0]],[r.lt[1],r.lt[0]]];
+    return [S,[S[0],201],[cx,201],[cx,dY]];
+  }
+  if (r.lt) return [B,[B[0],201],[200,201],[200,r.lt[0]],[r.lt[1],r.lt[0]]];
+  return [B,[B[0],201],[cx,201],[cx,dY]];
+}
+function routesFor(f, r){
+  if (f===1){
+    const text = r.e ? r.e.text : `정문으로 들어와 로비 왼쪽(서쪽) 끝 안쪽으로 들어가면, ${r.pos} 칸이 ‘${r.name}’입니다.`;
+    return [{kind:"s",title:"정문에서 가는 길",text,path:pathFor(f,r,"s")}];
+  }
+  const out = [];
+  const hs = `정문으로 들어와 회전계단으로 ${f}층까지 올라가세요.`;
+  const ws = r.noWalk ? "" : " 계단 위에서 복도를 따라 오른쪽(동쪽)으로 이동하세요.";
+  const ts = r.cs || `왼편 ${ord(r.n)} 문이 ‘${r.name}’입니다.`;
+  out.push({kind:"s",title:"회전계단에서 가는 길",text:`${hs}${ws} ${ts}`,path:pathFor(f,r,"s")});
+  if (!r.noBridge){
+    const hb = `청문관 건물에서 엘리베이터를 타고 ${f}층에서 내린 뒤, 다리를 건너 복도로 들어오세요.`;
+    let tb = r.cb;
+    if (!tb){
+      tb = r.bd==="E"
+        ? `복도로 들어서면 오른쪽(동쪽)으로 이동하세요. 왼편 ${ord(r.nb)} 문이 ‘${r.name}’입니다.`
+        : `복도로 들어서면 왼쪽(서쪽)으로 이동하세요. 오른편 ${ord(r.nb)} 문이 ‘${r.name}’입니다.`;
+    }
+    out.push({kind:"b",title:"청문관 연결 다리에서 가는 길",text:`${hb} ${tb}`,path:pathFor(f,r,"b")});
+  }
+  return out;
+}
+
+/* ---------- 프리즘(입체) ---------- */
+const proj = (x,y,z,k,ox,oy) => [ox + (x-y)*C30*k, oy + (x+y)*0.5*k - z];
+function drawPrism(g, poly, z0, z1, k, ox, oy, fill, side, side2, topExtra){
+  const P = (p,z) => proj(p[0],p[1],z,k,ox,oy);
+  const n = poly.length;
+  for (let i=0;i<n;i++){
+    const p = poly[i], q = poly[(i+1)%n];
+    const nx = q[1]-p[1], ny = -(q[0]-p[0]);
+    if (nx + ny > 0.001){
+      const useSide2 = Math.abs(nx) > Math.abs(ny);
+      el("polygon",{points:pts([P(p,z0),P(q,z0),P(q,z1),P(p,z1)]),fill:useSide2?side2:side},g);
+    }
+  }
+  return el("polygon",Object.assign({points:pts(poly.map(p=>P(p,z1))),fill:fill,class:"top"},topExtra||{}),g);
+}
+
+/* ---------- 전체 화면 ---------- */
+function renderOverview(){
+  const svg = document.getElementById("ovSvg");
+  svg.innerHTML = "";
+  const k = 0.44, gap = 112, padL = 86, padR = 16, padT = 18;
+  const total = 5;
+  const ox = padL + SIZE.h*C30*k;
+  const vbW = padL + (SIZE.w+SIZE.h)*C30*k + padR;
+  const vbH = padT + (total-1)*gap + (SIZE.w+SIZE.h)*0.5*k + 20;
+  svg.setAttribute("viewBox",`0 0 ${vbW.toFixed(0)} ${vbH.toFixed(0)}`);
+
+  for (let f=1; f<=total; f++){
+    const fl = FLOORS[f];
+    const oy = padT + (total-f)*gap;
+    const g = el("g",{class:"floor",tabindex:"0",role:"button","aria-label":`${f}층 보기`},svg);
+    drawPrism(g,G.slab,-9,0,k,ox,oy,"var(--slab)","var(--slab-side)","var(--slab-side2)",{stroke:"var(--line)","stroke-width":.6});
+    const flat = poly => el("polygon",{points:pts(poly.map(p=>proj(p[0],p[1],0.3,k,ox,oy))),fill:"var(--corridor)"},g);
+    flat(rectPoly(G.vcor)); if (f!==1) flat(rectPoly(G.hcor));
+    if (f===1) flat(G.lobby);
+    drawPrism(g,ellPoly(G.land,24),-4,0,k,ox,oy,"var(--corridor)","var(--corridor-line)","var(--corridor-line)");
+    drawPrism(g,rectPoly(G.landRect),-4,0,k,ox,oy,"var(--corridor)","var(--corridor-line)","var(--corridor-line)");
+    const rooms = fl.all.slice().sort((a,b)=>(a.abs.x+a.abs.y+a.abs.w/2+a.abs.h/2)-(b.abs.x+b.abs.y+b.abs.w/2+b.abs.h/2));
+    rooms.forEach(r=>{
+      const a = {x:r.abs.x+1.5,y:r.abs.y+1.5,w:r.abs.w-3,h:r.abs.h-3};
+      const c = TYPE_FILL[r.type];
+      const isB = r.type==="bridge";
+      drawPrism(g,r.poly||rectPoly(a),isB?-4:0,isB?0:10,k,ox,oy,c[0],c[1],c[1]);
+    });
+    drawPrism(g,ellPoly(G.spiral,24),0,3,k,ox,oy,"var(--fac)","var(--fac-side)","var(--fac-side)");
+    const left = proj(17,216,0,k,ox,oy);
+    const pill = el("g",{class:"pill"},g);
+    el("rect",{x:left[0]-68,y:left[1]-14,width:60,height:30,rx:15},pill);
+    const t = el("text",{x:left[0]-38,y:left[1]+1},pill); t.textContent = f + "층";
+    const go = () => openFloor(f);
+    g.addEventListener("click",go);
+    g.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();go();} });
+  }
+}
+
+/* ---------- 층 상세 ---------- */
+let curFloor = null, curRoom = null;
+
+function arrow(g, x, y, ang, color){
+  el("polygon",{points:"-6,10 -6,-2 -12,-2 0,-16 12,-2 6,-2 6,10",fill:color,stroke:"#fff","stroke-width":1,
+    transform:`translate(${x} ${y}) rotate(${ang})`,style:"pointer-events:none"},g);
+}
+
+function renderDetail(){
+  const f = curFloor, fl = FLOORS[f];
+  const svg = document.getElementById("dtSvg");
+  svg.innerHTML = "";
+  svg.setAttribute("viewBox", f===3 ? "-128 -8 966 356" : "-8 -8 846 356");
+  svg.style.minWidth = f===3 ? "860px" : "760px";
+  const g = el("g",{},svg);
+
+  el("polygon",{points:pts(G.slab),fill:"var(--slab)",stroke:"var(--line)","stroke-width":1.5},g);
+  const cor = {fill:"var(--corridor)"};
+  const rc = r => el("rect",Object.assign({x:r.x,y:r.y,width:r.w,height:r.h},cor),g);
+  rc(G.vcor); if (f!==1) rc(G.hcor); rc(G.landRect);
+  el("ellipse",Object.assign({cx:G.land.cx,cy:G.land.cy,rx:G.land.rx,ry:G.land.ry,stroke:"var(--corridor-line)","stroke-width":1.5},cor),g);
+  if (fl.bridge){
+    rc(G.bridge);
+    const bt = el("text",{x:G.bridge.x+G.bridge.w+10,y:G.bridge.y+50,class:"deco",style:"text-anchor:start;font-size:13px"},g); bt.textContent="청문관";
+    const bt2 = el("text",{x:G.bridge.x+G.bridge.w+10,y:G.bridge.y+66,class:"deco",style:"text-anchor:start"},g); bt2.textContent="연결 다리";
+  }
+  if (f===1){
+    el("polygon",{points:pts(G.lobby),fill:"var(--corridor)"},g);
+    const lt = el("text",{x:430,y:151,class:"deco"},g);
+    lt.textContent = "정문 · 로비";
+  }
+  el("rect",{x:G.block.x,y:G.block.y,width:G.block.w,height:G.block.h,fill:"var(--fac)",stroke:"var(--fac-side)"},g);
+
+  const sp = G.spiral, sg = el("g",{stroke:"var(--ink)","stroke-width":1.3,fill:"none"},g);
+  el("ellipse",{cx:sp.cx,cy:sp.cy,rx:sp.rx,ry:sp.ry},sg);
+  el("ellipse",{cx:sp.cx,cy:sp.cy,rx:22,ry:17,fill:"var(--fac)"},sg);
+  for (let i=0;i<10;i++){
+    const t = i/10*Math.PI*2;
+    el("line",{x1:sp.cx+22*Math.cos(t),y1:sp.cy+17*Math.sin(t),x2:sp.cx+sp.rx*Math.cos(t),y2:sp.cy+sp.ry*Math.sin(t)},sg);
+  }
+  const st = el("text",{x:sp.cx+8,y:sp.cy+sp.ry+16,class:"deco",style:"font-size:13px"},g); st.textContent="회전계단";
+
+  if (f===3){
+    el("rect",{x:-124,y:84,width:28,height:88,fill:"none",stroke:"var(--muted)","stroke-width":1.5,"stroke-dasharray":"5 4"},g);
+    const gt = el("text",{x:-110,y:132,class:"deco",transform:"rotate(-90 -110 132)"},g); gt.textContent = "공학관";
+  }
+
+  fl.all.forEach((r,i)=>{
+    const a = r.abs, c = TYPE_FILL[r.type];
+    const rg = el("g",{class:"room"+(curRoom===i?" sel":""),tabindex:"0",role:"button","aria-label":r.name},g);
+    if (r.poly) el("polygon",{points:pts(r.poly),fill:c[0],stroke:c[1],"stroke-width":1.5,"stroke-linejoin":"round",class:"top"},rg);
+    else el("rect",{x:a.x+1,y:a.y+1,width:a.w-2,height:a.h-2,rx:3,fill:c[0],stroke:c[1],"stroke-width":1.5,class:"top"},rg);
+    if (r.stairs){
+      const s = r.stairs;
+      el("rect",{x:s.x,y:s.y,width:s.w,height:s.h,fill:c[0],stroke:c[1],"stroke-width":1.5,class:"top"},rg);
+      for (let xx=s.x+12; xx<s.x+s.w-2; xx+=12) el("line",{x1:xx,x2:xx,y1:s.y+3,y2:s.y+s.h-3,stroke:c[1],"stroke-width":1.2,style:"pointer-events:none"},rg);
+      const sl = el("text",{x:s.x+s.w/2,y:s.y+s.h/2+4,class:"rl",style:"font-size:11px;paint-order:stroke;stroke:"+c[0]+";stroke-width:4px"},rg); sl.textContent = "계단";
+    }
+    const fs = (a.w < 70 || r.lines.length>2) ? 12 : 15;
+    const lh = fs + 3;
+    const cx = r.labelAt ? BX + r.labelAt[0]*BW : a.x + a.w/2;
+    const cy = r.labelAt ? BY + r.labelAt[1]*fl.bandH : a.y + a.h/2;
+    const y0 = cy - (r.lines.length-1)*lh/2 + fs*0.35;
+    r.lines.forEach((ln,j)=>{
+      const tx = el("text",{x:cx,y:y0+j*lh,class:"rl",style:`font-size:${(j>0&&r.lines.length>2)?10.5:fs}px`},rg);
+      tx.textContent = ln;
+    });
+    const act = () => selectRoom(i);
+    rg.addEventListener("click",act);
+    rg.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();act();} });
+  });
+
+  // 경로
+  if (curRoom !== null){
+    const r = fl.all[curRoom];
+    routesFor(f,r).forEach(rt=>{
+      el("polyline",{points:pts(rt.path),class:"route-line"+(rt.kind==="b"?" b":"")},g);
+    });
+  }
+  // 출발 화살표
+  if (f===1){
+    fl.rooms.forEach(r=>{ if (r.e) arrow(g, r.e.from[0], r.e.from[1], r.e.ang, "#e0452f"); });
+  } else {
+    arrow(g, S_STAIR[0], S_STAIR[1], 0, "#e0452f");
+    arrow(g, S_BRIDGE[0], S_BRIDGE[1], 0, "#7c4dff");
+  }
+}
+
+function renderList(){
+  const fl = FLOORS[curFloor];
+  const ul = document.getElementById("list");
+  ul.innerHTML = "";
+  const used = new Set();
+  fl.all.forEach((r,i)=>{
+    used.add(r.type);
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-pressed", curRoom===i ? "true":"false");
+    b.innerHTML = `<span class="dot" style="background:${TYPE_FILL[r.type][0]}"></span><span></span><span class="t">${TYPE_LABEL[r.type]}</span>`;
+    b.children[1].textContent = r.name;
+    b.addEventListener("click",()=>selectRoom(i));
+    li.appendChild(b); ul.appendChild(li);
+  });
+  const lg = document.getElementById("legend");
+  lg.innerHTML = "";
+  used.forEach(t=>{
+    const s = document.createElement("span");
+    s.innerHTML = `<i style="background:${TYPE_FILL[t][0]}"></i>`;
+    s.appendChild(document.createTextNode(TYPE_LABEL[t]));
+    lg.appendChild(s);
+  });
+  const add = (color,text)=>{
+    const s = document.createElement("span");
+    s.innerHTML = `<i style="background:${color};border-radius:50%"></i>`;
+    s.appendChild(document.createTextNode(text)); lg.appendChild(s);
+  };
+  if (curFloor===1) add("#e0452f","출발 화살표");
+  else { add("#e0452f","회전계단 출발"); add("#7c4dff","청문관 다리 출발"); }
+}
+
+function renderRoute(){
+  const box = document.getElementById("routeBox");
+  if (curRoom === null){ box.innerHTML = `<p class="empty">가고 싶은 곳을 선택해 보세요.</p>`; return; }
+  const r = FLOORS[curFloor].all[curRoom];
+  const routes = routesFor(curFloor, r);
+  box.innerHTML = `<h3 class="rt"></h3><div class="cards${routes.length>1?" two":""}"></div>`;
+  box.querySelector(".rt").textContent = `${curFloor}층 ${r.name} 가는 길`;
+  const wrap = box.querySelector(".cards");
+  routes.forEach(rt=>{
+    const d = document.createElement("div");
+    d.className = "route-card" + (rt.kind==="b" ? " b" : "");
+    d.innerHTML = `<h3><i></i><span></span></h3><p></p>`;
+    d.querySelector("span").textContent = rt.title;
+    d.querySelector("p").textContent = rt.text;
+    wrap.appendChild(d);
+  });
+}
+
+function selectRoom(i){
+  curRoom = (curRoom === i) ? null : i;
+  renderDetail(); renderList(); renderRoute();
+}
+
+function openFloor(f, fromHash){
+  curFloor = f; curRoom = null;
+  document.getElementById("overview").style.display = "none";
+  document.getElementById("detail").style.display = "block";
+  document.getElementById("back").style.display = "inline-block";
+  document.getElementById("title").textContent = `${f}층`;
+  document.getElementById("sub").textContent = BUILDING;
+  document.getElementById("listTitle").textContent = `${f}층 호실 목록`;
+  renderDetail(); renderList(); renderRoute();
+  if (!fromHash) { try{ location.hash = "floor-" + f; }catch(e){} }
+  window.scrollTo(0,0);
+}
+function openOverview(fromHash){
+  curFloor = null; curRoom = null;
+  document.getElementById("detail").style.display = "none";
+  document.getElementById("overview").style.display = "block";
+  document.getElementById("back").style.display = "none";
+  document.getElementById("title").textContent = BUILDING;
+  document.getElementById("sub").textContent = "층을 눌러 호실과 길 안내를 확인하세요";
+  if (!fromHash) { try{ location.hash = "all"; }catch(e){} }
+}
+function route(){
+  const m = /^#floor-(\d)$/.exec(location.hash);
+  if (m && FLOORS[+m[1]]) openFloor(+m[1], true);
+  else openOverview(true);
+}
+
+document.getElementById("back").addEventListener("click",()=>openOverview());
+window.addEventListener("hashchange",route);
+renderOverview();
+route();
+</script>
+</body>
+</html>
